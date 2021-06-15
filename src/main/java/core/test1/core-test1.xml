@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+<bean id="desk" class="core.test1.Desk">
+	<property name="leg" ref="leg"></property>
+</bean>
+<!-- propety의 name은 set method의 값 / ref 값은 주입할 method의 id -->
+
+<bean id="leg" class="core.test1.Leg"></bean>
+
+<bean id="chair" class="core.test1.Chair">
+	<constructor-arg ref="leg"></constructor-arg>
+</bean>
+<!-- constructor 생성자 생성 -->
+
+</beans>
