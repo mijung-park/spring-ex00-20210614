@@ -12,4 +12,4 @@
  -->
 
 <!-- javascript version -->
-<script defer src="${pageContext.request.contextPath }/res/js/all.js"></script>
+<script defer src="${pageContext.request.contextPath }/resources/js/all.js"></script>
