@@ -13,7 +13,7 @@ CREATE TABLE tb1_board (
 INSERT INTO tb1_board (title, content, writer)
 VALUES ('테스트 제목', '테스트 내용', 'user00');
 
-SELECT * FROM tbl_board;
+SELECT * FROM tbl_board ORDER BY bno DESC;
 
 -- practice table
 CREATE TABLE tbl_test1 (
