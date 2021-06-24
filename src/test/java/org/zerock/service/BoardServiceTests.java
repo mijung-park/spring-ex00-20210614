@@ -1,6 +1,8 @@
 package org.zerock.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.zerock.domain.BoardVO;
+import org.zerock.domain.Criteria;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -43,10 +46,12 @@ public class BoardServiceTests {
 	
 	@Test
 	public void testGetList() {
-		List<BoardVO> list = service.getList();
+		Criteria cri = new Criteria(2, 5);
+		List<BoardVO> list = service.getList(cri);
 		
 		assertNotNull(list);
 		assertTrue(list.size() > 0);
+		assertEquals(5, list.size());
 	}
 	
 	@Test

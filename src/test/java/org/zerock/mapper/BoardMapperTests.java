@@ -1,6 +1,9 @@
 package org.zerock.mapper;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -10,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.zerock.domain.BoardVO;
+import org.zerock.domain.Criteria;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -116,6 +120,14 @@ public class BoardMapperTests {
 		int cnt = mapper.update(board);
 		
 		assertEquals(1, cnt);
+	}
+
+	@Test
+	public void testPaging() {
+		Criteria cri = new Criteria();
+		List<BoardVO> list = mapper.getListWithPaging(cri);
+		
+		assertEquals(10, list.size());		
 	}
 
 

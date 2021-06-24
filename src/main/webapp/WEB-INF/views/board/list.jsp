@@ -11,6 +11,27 @@
 <%@ include file="/WEB-INF/subModules/bootstrapHeader.jsp" %>
 
 <title>Insert title here</title>
+
+<script>
+$(document).ready(function() {
+	$("#list-pagenation1 a").click(function(e) {
+		// 기본 액션 중지 (hyperlink 역할 안함)
+		e.preventDefault();
+		
+		console.log("a요소 클릭됨");
+		
+		var actionForm = $("#actionForm");
+		
+		// form의 pageNum input의 값을 a 요소의 href값으로 변경
+		actionForm.find("[name=pageNum]").val($(this).attr("href"));
+		
+		// submit
+		actionForm.submit();
+	});
+});
+</script>
+
+</script>
 </head>
 <body>
 	<bd:navbar />
@@ -51,16 +72,59 @@
 	</table>
 </div>
 
+<!-- pagenation -->
+<div>
+<nav aria-label="Page navigation example">
+  <ul id="list-pagenation1" class="pagination justify-content-center">
+  
+	  <c:if test="${pageMaker.prev }">
+	    <li class="page-item disabled">
+	      <a class="page-link" href="#" >Previous</a>
+	    </li>
+	  </c:if>
+    
+    
+    <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="num">
+    <%--href="${appRoot }/board/list?pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount} --%>
+	    <li class="page-item"><a class="page-link" 
+	    href="${num }">${num }</a></li>
+    </c:forEach>
+
+	<c:if test="${pageMaker.next }">
+	    <li class="page-item">
+	      <a class="page-link" href="#">Next</a>
+	    </li>
+    </c:if>
+  </ul>
+</nav>
+
+<div style="display: none;">
+	<form id="actionForm" action="${appRoot }/board/list" method="get">
+		<input name="pageNum" value="${pageMaker.cri.pageNum}" />
+		<input name="amount" value="${pageMaker.cri.amount}" />
+	</form>
+</div>
+
+</div>
+
 <c:if test="${not empty result }">
 
 <script>
 $(document).ready(function() {
 	
-	if(history.state == null) {
+	
+	if (history.state == null) {
+		console.log("어서와 처음이지!!!");
+		
 		$("#board-modal1").modal('show');
 		history.replaceState({}, null);
+		
+	} else {
+		
+		console.log("너 전에 왔었어!!!!");
 	}
-})
+	
+});
 </script>
 
 <div id="board-modal1" class="modal" tabindex="-1">
