@@ -17,9 +17,8 @@ public class BoardServiceImpl implements BoardService {
 	
 //	@Autowired
 //	public BoardServiceImpl(BoardMapper mapper) {
-//		this.mapper = mapper;		
+//		this.mapper = mapper;
 //	}
-	// injection을 생성자, 또는 메소드로 할수있음. 위는 생성자로 구현
 	
 	
 	@Override
@@ -28,7 +27,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public BoardVO get(long bno) {
+	public BoardVO get(Long bno) {
 		return mapper.read(bno);
 	}
 
@@ -38,7 +37,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public boolean remove(long bno) {
+	public boolean remove(Long bno) {
 		return mapper.delete(bno) == 1;
 	}
 
@@ -46,5 +45,10 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardVO> getList(Criteria cri) {
 		return mapper.getListWithPaging(cri);
 	}
-
+	
+	@Override
+	public int getTotal(Criteria cri) {
+		return mapper.getTotalCount(cri);
+	}
+	
 }

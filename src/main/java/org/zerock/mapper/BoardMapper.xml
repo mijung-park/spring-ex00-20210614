@@ -5,86 +5,102 @@
   
 <mapper namespace="org.zerock.mapper.BoardMapper">
 
+	<sql id="criteria">
+	 <where>
+	     <foreach item="type" separator="or" collection="typeArr">
+	     	<choose>
+	     		<when test='type == "T"'>
+	     			title LIKE CONCAT('%', #{keyword}, '%')
+	     		</when>
+	     		<when test='type == "W"'>
+	     			writer LIKE CONCAT('%', #{keyword}, '%')
+	     		</when>
+	     		<when test='type == "C"'>
+	     			content LIKE CONCAT('%', #{keyword}, '%')
+	     		</when>
+	     	</choose>
+	     </foreach>
+     </where>
+	</sql>
+
   <select id="getList" resultType="org.zerock.domain.BoardVO">
-  
-   <!-- select * FROM tbl_board -->
-   
-   <![CDATA[
-   
-   SELECT
-   		bno bno,
-   		title title,
-   		content content,
-   		writer writer,
-   		regdate regdate,
-   		updateDate updateDate
-   		
-   FROM tbl_board
-   
-   WHERE bno > 0 ORDER BY bno DESC
     
-   ]]>
-   
+    <![CDATA[
+    
+    SELECT 
+    	bno bno,
+    	title title,
+    	content content,
+    	writer writer,
+    	regdate regdate,
+    	updatedate updateDate
+    
+     FROM tbl_board
+     
+     WHERE bno > 0 ORDER BY bno DESC
+     
+    ]]>
+    
   </select>
   
   <select id="getListWithPaging" resultType="org.zerock.domain.BoardVO">
-  
-   <!-- select * FROM tbl_board -->
-   
-   <![CDATA[
-   
-   SELECT
-   		bno bno,
-   		title title,
-   		content content,
-   		writer writer,
-   		regdate regdate,
-   		updateDate updateDate
-   		
-   FROM tbl_board
-   
-   ORDER BY bno DESC
-   
-   LIMIT #{from}, #{amount}
     
-   ]]>
+    SELECT 
+    	bno bno,
+    	title title,
+    	content content,
+    	writer writer,
+    	regdate regdate,
+    	updatedate updateDate  
+     FROM tbl_board
+     
+     <include refid="criteria"></include>
+     
+     ORDER BY bno DESC
+     LIMIT #{from}, #{amount}
    
   </select>
   
+  <select id="getTotalCount" resultType="int">
+	  SELECT COUNT(*) FROM tbl_board
+	  <include refid="criteria"></include>
+  </select>
+  
   <insert id="insert">
-  	INSERT INTO tbl_board (title, content, writer)
-  	VALUES (#{title}, #{content}, #{writer})  
+  	INSERT INTO tbl_board (title, content, writer) 
+  	VALUES (#{title}, #{content}, #{writer})
   </insert>
   
-  <insert id="insertSelectKey" useGeneratedKeys="true" keyColumn="bno" keyProperty="bno">
+  <insert id="insertSelectKey" useGeneratedKeys="true" keyProperty="bno" keyColumn="bno">
   	INSERT INTO tbl_board (title, content, writer)
   	VALUES (#{title}, #{content}, #{writer})
   </insert>
   
   <select id="read" resultType="org.zerock.domain.BoardVO">
-  	SELECT
-  		bno bno,
-  		title title,
-  		content content,
-  		writer writer,
-  		regdate regdate,
-  		updateDate updateDate
+  	SELECT 
+  	 bno bno,
+  	 title title,
+  	 content content,
+  	 writer writer,
+  	 regdate regdate,
+  	 updatedate updateDate
   	FROM tbl_board
   	WHERE bno = #{bno}
   </select>
   
   <delete id="delete">
-  	DELETE FROM tbl_board 
-  	WHERE bno = #{bno}
+  	DELETE FROM tbl_board WHERE bno = #{bno}
   </delete>
   
   <update id="update">
-  	UPDATE tbl_board 	
+  	UPDATE tbl_board
+  	
   	SET
   	    title = #{title}, 
   	    content = #{content},
   	    writer = #{writer},
-  	    updateDate = NOW()   	    
+  	    updateDate = NOW()
+  	    
   	WHERE
   	    bno = #{bno}
   

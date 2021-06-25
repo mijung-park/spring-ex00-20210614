@@ -12,7 +12,7 @@
 <title>Insert title here</title>
 
 <script>
-$(document).ready(function(){
+$(document).ready(function() {
 	var modifyUrl = "${appRoot }/board/modify";
 	var removeUrl = "${appRoot }/board/remove";
 	$("#board-remove-btn1").click(function() {
@@ -20,12 +20,11 @@ $(document).ready(function(){
 			$("#modify-form1").attr("action", removeUrl);
 			$("#modify-form1").submit();
 		}
-	})
-})
+	});
+});
 </script>
 </head>
 <body>
-
 <bd:navbar></bd:navbar>
 
 <div class="container">
@@ -47,9 +46,15 @@ $(document).ready(function(){
 				<div class="form-group">
 					<label for="input2">작성자</label>
 					<input readonly="readonly" value="${board.writer }" id="input2" class="form-control" name="writer">
-				</div>				
+				</div>
+				
+				<input hidden name="pageNum" value="${cri.pageNum }" />
+				<input hidden name="amount" value="${cri.amount }" />	
+				<input hidden name="type" value=${cri.type } />
+				<input hidden name="keyword" value=${cri.keyword } />
+							
 				<input class="btn btn-warning" type="submit" value="수정" />
-				<input id="board-remove-btn1" class="btn btn-danger" type="submit" value="삭제" />
+				<input id="board-remove-btn1" class="btn btn-danger" type="button" value="삭제" />
 			</form>
 		</div>
 	</div>

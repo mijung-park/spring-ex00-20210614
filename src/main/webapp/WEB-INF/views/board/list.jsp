@@ -31,14 +31,10 @@ $(document).ready(function() {
 });
 </script>
 
-</script>
 </head>
 <body>
 	<bd:navbar />
 <div class="container">
-	
-	<h1>${result }</h1>
-	
 	<h1>글 목록</h1>
 	<table class="table table-striped">
 		<thead>
@@ -55,9 +51,19 @@ $(document).ready(function() {
 				<tr>
 					<td>${board.bno }</td>
 					<td>
-					<a href="${appRoot}/board/get?bno=${board.bno}">
-					${board.title }
+					
+					<c:url value="/board/get" var="getUrl">
+						<c:param name="bno" value="${board.bno }" />
+						<c:param name="pageNum" value="${pageMaker.cri.pageNum }" />
+						<c:param name="amount" value="${pageMaker.cri.amount }" />
+						<c:param name="type" value="${pageMaker.cri.type }" />
+						<c:param name="keyword" value="${pageMaker.cri.keyword }" />
+					</c:url>
+					
+					<a href="${getUrl}">
+						${board.title }
 					</a>
+					
 					</td>
 					<td>${board.writer }</td>
 					<td>
@@ -72,43 +78,45 @@ $(document).ready(function() {
 	</table>
 </div>
 
-<!-- pagenation -->
+<!--  pagenation -->
 <div>
 <nav aria-label="Page navigation example">
   <ul id="list-pagenation1" class="pagination justify-content-center">
   
-	  <c:if test="${pageMaker.prev }">
-	    <li class="page-item disabled">
-	      <a class="page-link" href="#" >Previous</a>
+  	<c:if test="${pageMaker.prev }">
+	    <li class="page-item">
+	      <a class="page-link" href="${pageMaker.startPage - 1 }">Previous</a>
 	    </li>
-	  </c:if>
-    
-    
-    <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="num">
-    <%--href="${appRoot }/board/list?pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount} --%>
-	    <li class="page-item"><a class="page-link" 
+  	</c:if>
+	
+	<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="num">
+	<%-- href value
+	href="${appRoot }/board/list?pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}"
+	 --%>
+	    <li class="page-item ${num == cri.pageNum ? 'active' : '' }"><a class="page-link" 
 	    href="${num }">${num }</a></li>
-    </c:forEach>
+	</c:forEach>
 
 	<c:if test="${pageMaker.next }">
 	    <li class="page-item">
-	      <a class="page-link" href="#">Next</a>
+	      <a class="page-link" href="${pageMaker.endPage + 1 }">Next</a>
 	    </li>
-    </c:if>
+	</c:if>
   </ul>
 </nav>
-
+<%-- 페이지 링크용 from --%>
 <div style="display: none;">
 	<form id="actionForm" action="${appRoot }/board/list" method="get">
-		<input name="pageNum" value="${pageMaker.cri.pageNum}" />
-		<input name="amount" value="${pageMaker.cri.amount}" />
+		<input name="pageNum" value="${cri.pageNum }" />
+		<input name="amount" value="${cri.amount }" />
+		<input name="type" value="${cri.type }" />
+		<input name="type" value="${cri.keyword }" />
 	</form>
 </div>
 
 </div>
 
-<c:if test="${not empty result }">
-
+<c:if test="${not empty result }" >
 <script>
 $(document).ready(function() {
 	
@@ -137,7 +145,7 @@ $(document).ready(function() {
         </button>
       </div>
       <div class="modal-body">
-        <p>${messageBody}</p>
+        <p>${messageBody }</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

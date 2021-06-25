@@ -3,7 +3,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="bd" tagdir="/WEB-INF/tags/board" %>
 
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,31 +15,37 @@
 <bd:navbar></bd:navbar>
 
 <div class="container">
-	
 	<h1>글 보기</h1>
 	
 	<div class="row">
 		<div class="col-12">
-			<form >
+			<form>
 				<div class="form-group">
 					<label for="input1">제목</label>
-					<input id="input1" readonly class="form-control" name="title" value="${board.title }">
+					<input readonly="readonly" id="input1" class="form-control" name="title" value="${board.title }">
 				</div>
 				<div class="form-group">
 					<label for="textarea1">내용</label>
-					<textarea id="textarea1" readonly class="form-control" 
+					<textarea readonly="readonly" id="textarea1" class="form-control" 
 					name="content"><c:out value="${board.content }" /></textarea>
 				</div>
 				<div class="form-group">
 					<label for="input2">작성자</label>
-					<input id="input2" readonly class="form-control" name="writer" value="${board.writer }">
-				</div>
+					<input readonly="readonly" id="input2" class="form-control" name="writer" value="${board.writer }">
+				</div>				
 				
-				<a class="btn btn-secondary" href="${appRoot }/board/modify?bno=${board.bno }">수정/삭제</a>	
+				<c:url value="/board/modify" var="modifyUrl">
+					<c:param name="bno" value="${board.bno }" />
+					<c:param name="pageNum" value="${cri.pageNum }" />
+					<c:param name="amount" value="${cri.amount }" />
+					<c:param name="type" value="${cri.type }" />
+					<c:param name="keyword" value="${cri.keyword }" />
+				</c:url>
+				
+				<a class="btn btn-secondary" href="${modifyUrl }">수정/삭제</a>
 			</form>
 		</div>
 	</div>
-	
 </div>
 </body>
 </html>

@@ -23,9 +23,10 @@ import lombok.extern.log4j.Log4j;
 @ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
 @Log4j
 public class BoardServiceTests {
-	
+
 	@Setter(onMethod_ = @Autowired)
 	private BoardService service;
+	
 	
 	@Test
 	public void testExist() {
@@ -42,11 +43,13 @@ public class BoardServiceTests {
 		service.register(board);
 		
 		assertNotEquals(0, board.getBno());
+		
 	}
 	
 	@Test
 	public void testGetList() {
 		Criteria cri = new Criteria(2, 5);
+		
 		List<BoardVO> list = service.getList(cri);
 		
 		assertNotNull(list);
@@ -56,40 +59,46 @@ public class BoardServiceTests {
 	
 	@Test
 	public void testGet() {
-		BoardVO vo = service.get(1);
+		BoardVO vo = service.get(1L);
 		
-		assertEquals(1, vo.getBno());
+		assertEquals(1L, vo.getBno());
 	}
+	
 	
 	@Test
 	public void testModify() {
-		BoardVO vo = service.get(1);
-		vo.setTitle("수정된 제목");
-		vo.setContent("수정된 본문");
+		String title = "수정된 제목";
+		String content = "수정된 본문";
+		
+		BoardVO vo = service.get(1L);
+		vo.setTitle(title);
+		vo.setContent(content);
 		
 		service.modify(vo);
 		
-		vo = service.get(1);
+		vo = service.get(1L);
 		
-		assertEquals("수정된 제목", vo.getTitle());
-		assertEquals("수정된 본문", vo.getContent());
+		assertEquals(title, vo.getTitle());
+		assertEquals(content, vo.getContent());
 	}
+	
 	
 	@Test
 	public void testRemove() {
-		long key1 = 5;
-//		long key2 = 9;
+		Long key1 = 13L;
+//		Long key2 = 14L;
 		
 		assertFalse(service.remove(key1));
 //		assertTrue(service.remove(key2));
 		
-		// 하나 입력 후 삭제
+		/* 하나 입력 후 삭제 */
 		BoardVO vo = new BoardVO();
 		vo.setTitle("title");
 		vo.setContent("content");
 		vo.setWriter("writer");
 		
 		service.register(vo);
+		
 		assertTrue(service.remove(vo.getBno()));
 	}
 }
