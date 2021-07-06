@@ -3,15 +3,23 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <c:url value="/board/list" var="listUrl">
+	<c:if test="${not empty cri.pageNum }">
 		<c:param name="pageNum" value="${cri.pageNum }"></c:param>
+	</c:if>
+	<c:if test="${not empty cri.amount }">
 		<c:param name="amount" value="${cri.amount }"></c:param>
+	</c:if>
 		<c:param name="keyword" value="${cri.keyword }"></c:param>
 		<c:param name="type" value="${cri.type }"></c:param>
 </c:url>
 
 <c:url value="/board/register" var="registerUrl">
+	<c:if test="${not empty cri.pageNum }">
 		<c:param name="pageNum" value="${cri.pageNum }"></c:param>
+	</c:if>
+	<c:if test="${not empty cri.amount }">
 		<c:param name="amount" value="${cri.amount }"></c:param>
+	</c:if>
 		<c:param name="keyword" value="${cri.keyword }"></c:param>
 		<c:param name="type" value="${cri.type }"></c:param>
 </c:url>
@@ -30,8 +38,21 @@
       <li class="nav-item">
         <a class="nav-link" href="${registerUrl }"><i class="fas fa-pen"></i> 글쓰기</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="${appRoot}/secure/all">모두</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="${appRoot}/secure/member">멤버만</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="${appRoot }/secure/admin">어드민만</a>
+      </li>
     </ul>
   </div>
+  
+  <form action="${appRoot }/logout" method="post">
+  	<input type="submit" class="btn btn-outline-secondary" value="로그아웃">
+  </form>
   
   <form action="${listUrl }" method="get" class="form-inline">
   	<select name="type" class="form-control mr-sm-2">
@@ -44,7 +65,7 @@
   		<option value="TWC" ${cri.type == "TWC" ? 'selected' : '' }>제목 or 내용 or 작성자</option>
   	</select>
   
-    <input name="keyword" value = "${cri.keyword }" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <input name="keyword" value="${cri.keyword }" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
     
     <input type="hidden" name="pageNum" value="1">
     <input type="hidden" name="amount" value="${cri.amount }">
