@@ -7,28 +7,27 @@
 
 	<bean id="bcryptPasswordEncoder" 
 	class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
-	
+
 	<bean id="customUserDetailsService"
 	class="org.zerock.security.CustomUserDetailsService"></bean>
-	
+
 	<security:http>
 		<security:intercept-url pattern="/secure/all" access="permitAll"/>
 		<security:intercept-url pattern="/secure/member" access="hasRole('ROLE_MEMBER')"/>
 		<security:intercept-url pattern="/secure/admin" access="hasRole('ROLE_ADMIN')"/>
-		<security:form-login login-page="/member/login"/>
+		<security:form-login login-page="/member/login" default-target-url="/board/list"/>
 		<security:logout/>
 		<security:csrf disabled="true"/>
+		<security:remember-me data-source-ref="dataSource"/> 
+		<!-- token-validity-seconds 프로퍼티로 쿠키유지시간 설정가능.기본14일 -->
 	</security:http>
-	
+
 	<security:authentication-manager>
-		<security:authentication-provider 
-		user-service-ref="customUserDetailsService">
-			<security:password-encoder ref="bcryptPasswordEncoder" />
-			
+		<security:authentication-provider user-service-ref="customUserDetailsService">
+			<security:password-encoder ref="bcryptPasswordEncoder"/>
 		</security:authentication-provider>
-	</security:authentication-manager>
-	
-	<!-- 
+	</security:authentication-manager>	
+	<!--  
 	<security:authentication-manager>
 		<security:authentication-provider>
 			<security:user-service>

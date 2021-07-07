@@ -7,7 +7,7 @@
 
 <insert id="insert">
 	INSERT INTO tbl_member
-	(userid, userpw, userName)
+	(userid, userpw, username)
 	VALUES
 	(#{userid}, #{userpw}, #{userName})
 </insert>
