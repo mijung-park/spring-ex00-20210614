@@ -84,4 +84,14 @@ public class MemberMapperTests {
 		assertTrue(encoder.matches("admin", vo.getUserpw()));
 		assertTrue(vo.isEnabled());
 	}
+	
+	@Test
+	public void testUpdate() {
+		MemberVO vo = mapper.read("mezzang");
+		
+		String mezzang = "asdf";
+		vo.setUserpw(encoder.encode(mezzang));
+		
+		assertEquals(1, mapper.update(vo));
+	}
 }

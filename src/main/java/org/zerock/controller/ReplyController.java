@@ -60,7 +60,7 @@ public class ReplyController {
 	
 //	@RequestMapping(value = "/{rno}", method = RequestMethod.DELETE)
 	@DeleteMapping("/{rno}")
-	@PreAuthorize("principarl.username == #vo.replyer")
+	@PreAuthorize("principal.username == #vo.replyer")
 	public ResponseEntity<String> remove(@PathVariable Long rno, @RequestBody ReplyVO vo) {
 		
 		int cnt = service.remove(rno);
